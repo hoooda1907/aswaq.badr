@@ -228,7 +228,7 @@ async function exportFile(){
     if(P&&P.Filesystem&&P.Share){
       const b64=XLSX.write(wb,{bookType:'xlsx',type:'base64'});
       const r=await P.Filesystem.writeFile({path:name,data:b64,directory:'CACHE'});
-      await P.Share.share({title:name,url:r.uri,dialogTitle:'حفظ / مشاركة ملف الجرد'});
+      try{await P.Share.share({title:name,url:r.uri,dialogTitle:'حفظ / مشاركة ملف الجرد'})}catch(se){}
     }else{
       const blob=new Blob([XLSX.write(wb,{bookType:'xlsx',type:'array'})],{type:'application/octet-stream'});
       const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();
